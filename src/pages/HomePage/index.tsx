@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchPosts } from "../../api/posts";
+import PostCard from "../../features/PostCard";
 
 const HomePage = () => {
   const [posts, setPosts] = useState<any[]>([]);
@@ -14,12 +15,14 @@ const HomePage = () => {
 
   return (
     <div>
-      <h1>Home Page</h1>
       {posts.map((post) => (
-        <div key={post.id} className="post-card">
-          <h2>{post.title}</h2>
-          <p>{post.body.slice(0, 100)}...</p>
-        </div>
+        <PostCard
+          key={post.id}
+          id={0}
+          title={post.title}
+          body={post.body}
+          userId={post.userId}
+        />
       ))}
     </div>
   );
