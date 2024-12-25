@@ -10,7 +10,7 @@ interface PostCardProps {
   userId: number;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ id, title, body, userId }) => {
+const PostCard: React.FC<PostCardProps> = ({ id, title, userId }) => {
   const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
