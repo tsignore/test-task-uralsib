@@ -1,14 +1,13 @@
-// src/pages/HomePage/HomePage.tsx
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { loadPosts, setPage } from "../../features/posts/postsSlice";
 import PostCard from "../../features/PostCard";
 import styles from "./HomePage.module.scss";
 import Container from "../../shared/components/Container";
-import { RootState } from "../../store";
+import { AppDispatch, RootState } from "../../store";
 
 const HomePage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { posts, page, loading } = useSelector(
     (state: RootState) => state.posts
   );
