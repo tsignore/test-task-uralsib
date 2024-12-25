@@ -1,35 +1,27 @@
-import { useEffect, useState } from "react";
-import { fetchPosts } from "../../api/posts";
+// src/pages/HomePage/HomePage.tsx
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { loadPosts, setPage } from "../../features/posts/postsSlice";
 import PostCard from "../../features/PostCard";
 import styles from "./HomePage.module.scss";
 import Container from "../../shared/components/Container";
+import { RootState } from "../../store";
 
 const HomePage = () => {
-  const [posts, setPosts] = useState<any[]>([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { posts, page, loading } = useSelector(
+    (state: RootState) => state.posts
+  );
 
-  const POSTS_PER_PAGE = 12;
-
-  const loadPosts = async () => {
-    if (loading) return;
-    setLoading(true);
-    const newPosts = await fetchPosts(page, POSTS_PER_PAGE);
-
-    setPosts((prev) => {
-      const uniquePosts = newPosts.filter(
-        (post: { id: any }) =>
-          !prev.some((existingPost) => existingPost.id === post.id)
-      );
-      return [...prev, ...uniquePosts];
-    });
-
-    setLoading(false);
+  const loadPostsHandler = () => {
+    if (!loading) {
+      dispatch(loadPosts(page));
+    }
   };
 
   useEffect(() => {
-    loadPosts();
-  }, [page]);
+    loadPostsHandler();
+  }, [dispatch, page]);
 
   return (
     <main className={styles["home-page"]}>
@@ -47,7 +39,7 @@ const HomePage = () => {
         </div>
         <button
           className={styles["load-more-button"]}
-          onClick={() => setPage((prev) => prev + 1)}
+          onClick={() => dispatch(setPage(page + 1))}
           disabled={loading}
         >
           {loading ? "Загрузка..." : "Загрузить еще"}
