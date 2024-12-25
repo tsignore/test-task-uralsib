@@ -11,11 +11,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 16px;
 }
 
 .post-card-header {
-  padding: 8px 16px;
-
   h3 {
     font-size: 22px;
     font-weight: bold;
@@ -25,7 +24,6 @@
 }
 
 .post-card-footer {
-  padding: 8px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,4 +32,9 @@
   p {
     margin: 0;
   }
+}
+
+.skeleton-text {
+  margin-top: 5px;
+  border-radius: 5px;
 }
