@@ -1,30 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./PostCard.module.scss";
-import { fetchUser } from "../../api/users";
-import Button from "../../shared/components/Button";
-import Skeleton from "../../shared/ui/Skeleton";
+import Skeleton from "../../../../shared/ui/Skeleton";
+import Button from "../../../../shared/ui/Button";
+import { AppDispatch, RootState } from "../../../../app/store";
+import { fetchUser } from "../../../User/model/slices/userSlice";
 
 interface PostCardProps {
   id: number;
   title: string;
-  body: string;
   userId: number;
 }
 
 const PostCard: React.FC<PostCardProps> = ({ id, title, userId }) => {
-  const [userData, setUserData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector((state: RootState) => state.user.users[userId]);
+  const post = useSelector((state: RootState) => state.posts.posts[id - 1]);
+  const postsLoading = useSelector((state: RootState) => state.posts.loading);
+  const userLoading = useSelector((state: RootState) => state.user.loading);
 
   useEffect(() => {
-    const loadUserData = async () => {
-      const fetchedUser = await fetchUser(userId);
-      setUserData(fetchedUser);
-      setLoading(false);
-    };
-    loadUserData();
-  }, [userId]);
+    if (!user) {
+      dispatch(fetchUser(userId));
+    }
+  }, [dispatch, userId, user]);
 
-  if (loading) {
+  if (postsLoading || userLoading || !user) {
     return (
       <div className={styles["post-card"]}>
         <div>
@@ -48,13 +49,14 @@ const PostCard: React.FC<PostCardProps> = ({ id, title, userId }) => {
       </div>
     );
   }
+
   return (
     <div className={styles["post-card"]}>
       <div className={styles["post-card-header"]}>
         <h3>{title}</h3>
       </div>
       <div className={styles["post-card-footer"]}>
-        <p>{userData.name}</p>
+        <p>{user.name}</p>
         <Button to={`/post/${id}`}>Читать</Button>
       </div>
     </div>

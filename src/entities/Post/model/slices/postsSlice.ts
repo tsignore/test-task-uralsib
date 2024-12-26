@@ -1,18 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchPosts } from "../../api/posts";
-
-interface Post {
-  id: number;
-  title: string;
-  body: string;
-  userId: number;
-}
-
-interface PostsState {
-  posts: Post[];
-  page: number;
-  loading: boolean;
-}
+import { fetchPosts } from "../services/fetchPosts";
+import { Post, PostsState } from "../types/post";
 
 const initialState: PostsState = {
   posts: [],
