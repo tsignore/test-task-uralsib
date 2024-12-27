@@ -9,6 +9,7 @@ import {
   Post as PostType,
   setPage,
 } from "../../entities/Post/model";
+import { useInfiniteScroll } from "../../features/infiniteScroll/useInfiniteScroll";
 
 const HomePage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,20 +17,22 @@ const HomePage = () => {
     (state: RootState) => state.posts
   );
 
-  const loadPostsHandler = () => {
-    if (!loading && posts.length === 0) {
-      dispatch(loadPosts(page));
+  const hasMore = posts.length < 100;
+
+  const loadMoreHandler = () => {
+    if (!loading) {
+      dispatch(setPage(page + 1));
+      dispatch(loadPosts(page + 1));
     }
   };
 
-  useEffect(() => {
-    loadPostsHandler();
-  }, [posts.length]);
+  useInfiniteScroll(loading, hasMore, loadMoreHandler);
 
-  const loadMoreHandler = () => {
-    dispatch(setPage(page + 1));
-    dispatch(loadPosts(page + 1));
-  };
+  useEffect(() => {
+    if (posts.length === 0) {
+      dispatch(loadPosts(page));
+    }
+  }, [dispatch, page, posts.length]);
 
   return (
     <main className={styles["home-page"]}>
@@ -44,16 +47,8 @@ const HomePage = () => {
             />
           ))}
         </div>
-        {posts.length ? (
-          <button
-            className={styles["load-more-button"]}
-            onClick={loadMoreHandler}
-            disabled={loading}
-          >
-            {loading ? "Загрузка..." : "Загрузить еще"}
-          </button>
-        ) : (
-          ""
+        {loading && (
+          <div className={styles["loading-indicator"]}>Загрузка...</div>
         )}
       </Container>
     </main>
