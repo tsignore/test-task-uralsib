@@ -15,7 +15,6 @@ interface PostCardProps {
 const PostCard: React.FC<PostCardProps> = ({ id, title, userId }) => {
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: RootState) => state.user.users[userId]);
-  const post = useSelector((state: RootState) => state.posts.posts[id - 1]);
   const postsLoading = useSelector((state: RootState) => state.posts.loading);
   const userLoading = useSelector((state: RootState) => state.user.loading);
 

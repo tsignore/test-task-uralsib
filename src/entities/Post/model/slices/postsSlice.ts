@@ -11,7 +11,7 @@ const initialState: PostsState = {
 export const loadPosts = createAsyncThunk(
   "posts/loadPosts",
   async (page: number) => {
-    const response = await fetchPosts(page, 12);
+    const response = await fetchPosts(page, 18);
     return response;
   }
 );
