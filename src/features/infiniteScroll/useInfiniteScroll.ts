@@ -8,11 +8,14 @@ export const useInfiniteScroll = (
   const handleScroll = () => {
     if (loading || !hasMore) return;
 
-    const bottom =
-      window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offsetHeight;
+    const scrollTop =
+      document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollHeight =
+      document.documentElement.scrollHeight || document.body.scrollHeight;
+    const clientHeight =
+      document.documentElement.clientHeight || window.innerHeight;
 
-    if (bottom) {
+    if (scrollTop + clientHeight >= scrollHeight - 5) {
       loadMore();
     }
   };
