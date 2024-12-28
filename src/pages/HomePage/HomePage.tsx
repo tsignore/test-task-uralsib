@@ -10,6 +10,7 @@ import {
   setPage,
 } from "../../entities/Post/model";
 import { useInfiniteScroll } from "../../features/infiniteScroll/useInfiniteScroll";
+import PostCardSkeleton from "../../entities/Post/ui/PostCardSkeleton/PostCardSkeleton";
 
 const HomePage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,24 +33,39 @@ const HomePage = () => {
     if (posts.length === 0) {
       dispatch(loadPosts(page));
     }
+
+    const savedScrollPosition = localStorage.getItem("scrollPosition");
+
+    if (savedScrollPosition) {
+      window.scrollTo(0, Number(savedScrollPosition));
+      localStorage.removeItem("scrollPosition");
+    }
   }, [dispatch, page, posts.length]);
+
+  useEffect(() => {
+    if (posts.length === 0 && !loading) {
+      dispatch(loadPosts(page));
+    }
+  }, [dispatch, page, posts.length, loading]);
 
   return (
     <main className={styles["home-page"]}>
       <Container>
         <div className={styles["posts"]}>
-          {posts.map((post: PostType) => (
-            <PostCard
-              key={post.id}
-              id={post.id}
-              title={post.title}
-              userId={post.userId}
-            />
-          ))}
+          {loading &&
+            Array.from({ length: 18 }).map((_, index) => (
+              <PostCardSkeleton key={index} />
+            ))}
+          {!loading &&
+            posts.map((post: PostType) => (
+              <PostCard
+                key={post.id}
+                id={post.id}
+                title={post.title}
+                userId={post.userId}
+              />
+            ))}
         </div>
-        {loading && (
-          <div className={styles["loading-indicator"]}>Загрузка...</div>
-        )}
       </Container>
     </main>
   );
