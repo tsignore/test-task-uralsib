@@ -5,6 +5,7 @@ import Skeleton from "../../../../shared/ui/Skeleton";
 import Button from "../../../../shared/ui/Button";
 import { AppDispatch, RootState } from "../../../../app/store";
 import { fetchUser } from "../../../User/model/slices/userSlice";
+import { useNavigate } from "react-router-dom";
 
 interface PostCardProps {
   id: number;
@@ -17,6 +18,13 @@ const PostCard: React.FC<PostCardProps> = ({ id, title, userId }) => {
   const user = useSelector((state: RootState) => state.user.users[userId]);
   const postsLoading = useSelector((state: RootState) => state.posts.loading);
   const userLoading = useSelector((state: RootState) => state.user.loading);
+
+  const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    localStorage.setItem("scrollPosition", String(window.scrollY));
+    navigate(`/post/${id}`);
+  };
 
   useEffect(() => {
     if (!user) {
@@ -56,7 +64,7 @@ const PostCard: React.FC<PostCardProps> = ({ id, title, userId }) => {
       </div>
       <div className={styles["post-card-footer"]}>
         <p>{user.name}</p>
-        <Button to={`/post/${id}`}>Читать</Button>
+        <Button onClick={handleNavigation}>Читать</Button>
       </div>
     </div>
   );
