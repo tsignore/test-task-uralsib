@@ -1,0 +1,40 @@
+.post-card {
+  width: 300px;
+  min-height: 200px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #eaeaea;
+  overflow: hidden;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.post-card-header {
+  h3 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 8px;
+  }
+}
+
+.post-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+
+  p {
+    margin: 0;
+  }
+}
+
+.skeleton-text {
+  margin-top: 5px;
+  border-radius: 5px;
+}
