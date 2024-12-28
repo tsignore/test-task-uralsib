@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./PostCard.module.scss";
-import Skeleton from "../../../../shared/ui/Skeleton";
 import Button from "../../../../shared/ui/Button";
 import { AppDispatch, RootState } from "../../../../app/store";
 import { fetchUser } from "../../../User/model/slices/userSlice";
