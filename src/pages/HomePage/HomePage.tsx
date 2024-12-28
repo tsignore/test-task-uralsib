@@ -35,10 +35,9 @@ const HomePage = () => {
 
     const savedScrollPosition = localStorage.getItem("scrollPosition");
 
-    // Восстанавливаем позицию, если она сохранена
     if (savedScrollPosition) {
       window.scrollTo(0, Number(savedScrollPosition));
-      localStorage.removeItem("scrollPosition"); // Удаляем сохранённую позицию после её применения
+      localStorage.removeItem("scrollPosition");
     }
   }, [dispatch, page, posts.length]);
 
